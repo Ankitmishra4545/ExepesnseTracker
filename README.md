@@ -1,1 +1,160 @@
 # ExepesnseTracker
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Expense Tracker</h2>
+
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount">
+
+    <label for="description">Description:</label>
+    <input type="text" id="description">
+
+    <label for="category">Category:</label>
+    <select id="category">
+        <option value="movies">Movies</option>
+        <option value="fuel">Fuel</option>
+        <option value="food">Food</option>
+        <option value="electricity">Electricity</option>
+    </select>
+
+    <button onclick="addExpense()">Add Expense</button>
+
+    <table id="expenseTable">
+        <thead>
+            <tr>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        // Function to add expense
+        function addExpense() {
+            var amount = document.getElementById("amount").value;
+            var description = document.getElementById("description").value;
+            var category = document.getElementById("category").value;
+
+            if (amount && description && category) {
+                // Create a unique ID for each expense
+                var expenseId = "expense_" + new Date().getTime();
+
+                // Create expense object
+                var expense = {
+                    id: expenseId,
+                    amount: amount,
+                    description: description,
+                    category: category
+                };
+
+                // Retrieve existing expenses from local storage
+                var expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+
+                // Add the new expense
+                expenses.push(expense);
+
+                // Save updated expenses to local storage
+                localStorage.setItem("expenses", JSON.stringify(expenses));
+
+                // Refresh the expense table
+                displayExpenses();
+            }
+        }
+
+        // Function to display expenses in the table
+        function displayExpenses() {
+            var expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+            var tableBody = document.querySelector("#expenseTable tbody");
+
+            // Clear the table body
+            tableBody.innerHTML = "";
+
+            // Populate the table with expenses
+            expenses.forEach(function (expense) {
+                var row = tableBody.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+
+                cell1.innerHTML = expense.amount;
+                cell2.innerHTML = expense.description;
+                cell3.innerHTML = expense.category;
+
+                // Add buttons for delete and edit actions
+                var deleteButton = document.createElement("button");
+                deleteButton.innerHTML = "Delete Expense";
+                deleteButton.onclick = function () {
+                    deleteExpense(expense.id);
+                };
+
+                var editButton = document.createElement("button");
+                editButton.innerHTML = "Edit Expense";
+                editButton.onclick = function () {
+                    editExpense(expense.id);
+                };
+
+                cell4.appendChild(deleteButton);
+                cell4.appendChild(editButton);
+            });
+        }
+
+        // Function to delete an expense
+        function deleteExpense(expenseId) {
+            var expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+
+            // Filter out the expense with the given ID
+            var updatedExpenses = expenses.filter(function (expense) {
+                return expense.id !== expenseId;
+            });
+
+            // Save the updated expenses to local storage
+            localStorage.setItem("expenses", JSON.stringify(updatedExpenses));
+
+            // Refresh the expense table
+            displayExpenses();
+        }
+
+        // Function to edit an expense (not implemented in this example)
+        function editExpense(expenseId) {
+            // You can implement the edit functionality as needed
+            alert("Edit functionality not implemented in this example");
+        }
+
+        // Display initial expenses on page load
+        displayExpenses();
+    </script>
+
+</body>
+</html>
