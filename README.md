@@ -1,160 +1,70 @@
-# ExepesnseTracker
+# Getting Started with Create React App
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 50%;
-            margin-top: 20px;
-        }
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-        table, th, td {
-            border: 1px solid black;
-        }
+## Available Scripts
 
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
+In the project directory, you can run:
 
-        button {
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
+### `npm start`
 
-    <h2>Expense Tracker</h2>
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-    <label for="amount">Amount:</label>
-    <input type="number" id="amount">
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-    <label for="description">Description:</label>
-    <input type="text" id="description">
+### `npm test`
 
-    <label for="category">Category:</label>
-    <select id="category">
-        <option value="movies">Movies</option>
-        <option value="fuel">Fuel</option>
-        <option value="food">Food</option>
-        <option value="electricity">Electricity</option>
-    </select>
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-    <button onclick="addExpense()">Add Expense</button>
+### `npm run build`
 
-    <table id="expenseTable">
-        <thead>
-            <tr>
-                <th>Amount</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-    <script>
-        // Function to add expense
-        function addExpense() {
-            var amount = document.getElementById("amount").value;
-            var description = document.getElementById("description").value;
-            var category = document.getElementById("category").value;
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-            if (amount && description && category) {
-                // Create a unique ID for each expense
-                var expenseId = "expense_" + new Date().getTime();
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-                // Create expense object
-                var expense = {
-                    id: expenseId,
-                    amount: amount,
-                    description: description,
-                    category: category
-                };
+### `npm run eject`
 
-                // Retrieve existing expenses from local storage
-                var expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-                // Add the new expense
-                expenses.push(expense);
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-                // Save updated expenses to local storage
-                localStorage.setItem("expenses", JSON.stringify(expenses));
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-                // Refresh the expense table
-                displayExpenses();
-            }
-        }
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-        // Function to display expenses in the table
-        function displayExpenses() {
-            var expenses = JSON.parse(localStorage.getItem("expenses")) || [];
-            var tableBody = document.querySelector("#expenseTable tbody");
+## Learn More
 
-            // Clear the table body
-            tableBody.innerHTML = "";
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-            // Populate the table with expenses
-            expenses.forEach(function (expense) {
-                var row = tableBody.insertRow();
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                var cell3 = row.insertCell(2);
-                var cell4 = row.insertCell(3);
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-                cell1.innerHTML = expense.amount;
-                cell2.innerHTML = expense.description;
-                cell3.innerHTML = expense.category;
+### Code Splitting
 
-                // Add buttons for delete and edit actions
-                var deleteButton = document.createElement("button");
-                deleteButton.innerHTML = "Delete Expense";
-                deleteButton.onclick = function () {
-                    deleteExpense(expense.id);
-                };
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-                var editButton = document.createElement("button");
-                editButton.innerHTML = "Edit Expense";
-                editButton.onclick = function () {
-                    editExpense(expense.id);
-                };
+### Analyzing the Bundle Size
 
-                cell4.appendChild(deleteButton);
-                cell4.appendChild(editButton);
-            });
-        }
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-        // Function to delete an expense
-        function deleteExpense(expenseId) {
-            var expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+### Making a Progressive Web App
 
-            // Filter out the expense with the given ID
-            var updatedExpenses = expenses.filter(function (expense) {
-                return expense.id !== expenseId;
-            });
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-            // Save the updated expenses to local storage
-            localStorage.setItem("expenses", JSON.stringify(updatedExpenses));
+### Advanced Configuration
 
-            // Refresh the expense table
-            displayExpenses();
-        }
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-        // Function to edit an expense (not implemented in this example)
-        function editExpense(expenseId) {
-            // You can implement the edit functionality as needed
-            alert("Edit functionality not implemented in this example");
-        }
+### Deployment
 
-        // Display initial expenses on page load
-        displayExpenses();
-    </script>
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-</body>
-</html>
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
